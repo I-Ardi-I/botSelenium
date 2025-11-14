@@ -1,7 +1,7 @@
 import asyncio
 from bot_init import start_bot
 from logging_setup import setup_logging
-from functions.time_checker import periodic_check_dates
+from functions.mail_checker import watch_loop
 
 # Настройка логирования
 setup_logging()
@@ -10,7 +10,7 @@ setup_logging()
 async def main():
     await asyncio.gather(
         start_bot(),
-        periodic_check_dates()
+		watch_loop()
     )
 
 if __name__ == '__main__':
