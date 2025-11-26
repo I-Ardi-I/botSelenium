@@ -1,8 +1,6 @@
 import logging
 import os
-
 from logging.handlers import TimedRotatingFileHandler
-
 
 def setup_logging():
     log_dir = "logs"
@@ -11,28 +9,38 @@ def setup_logging():
 
     log_file = os.path.join(log_dir, "app.log")
 
+    logger = logging.getLogger()  # корневой логгер
+    logger.setLevel(logging.DEBUG)
+
+    # Удаляем старые хендлеры, если есть
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    # Файловый хендлер
     file_handler = TimedRotatingFileHandler(
-        log_file, when="midnight", interval=1, backupCount=3
+        log_file, when="midnight", interval=1, backupCount=3, encoding="utf-8"
     )
     file_handler.suffix = "%d-%m-%Y"
     file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(logging.Formatter("%(asctime)s | %(name)s | %(levelname)s | %(message)s"))
+    file_handler.setFormatter(logging.Formatter(
+        "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+    ))
+    logger.addHandler(file_handler)
 
+    # Потоковый хендлер (консоль)
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.DEBUG)
-    stream_handler.setFormatter(logging.Formatter("%(asctime)s | %(name)s | %(levelname)s | %(message)s"))
+    stream_handler.setFormatter(logging.Formatter(
+        "%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+    ))
+    logger.addHandler(stream_handler)
 
-    logging.basicConfig(
-        level=logging.DEBUG,
-        handlers=[file_handler, stream_handler]
-    )
-
+    # Логирование библиотек
     logging.getLogger("aiogram").setLevel(logging.INFO)
     logging.getLogger("aiohttp").setLevel(logging.INFO)
-
-    # Настройка уровня логирования для urllib3, selenium, asyncio
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     logging.getLogger("selenium").setLevel(logging.WARNING)
     logging.getLogger("asyncio").setLevel(logging.WARNING)
 
-    logging.info("Логирование настроено.")
+    logger.info("Логирование настроено.")
+

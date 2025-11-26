@@ -5,9 +5,6 @@ from dotenv import load_dotenv
 load_dotenv()
 BOT_TOKEN = os.getenv('MERCURY_BOT')
 ADMIN_CHAT_ID = os.getenv('ADMIN_CHAT_ID')
-AUTO_LIST_URL = os.getenv('AUTO_LIST_URL')
-CHECK_DATES_JSON = os.getenv('CHECK_DATES_JSON')
-AUTHORIZATION_URL = os.getenv('AUTHORIZATION_URL')
 
 MAIL_USER = os.getenv('MAIL_USER')
 MAIL_PASSWORD = os.getenv('MAIL_PASS')

@@ -12,13 +12,9 @@ register_commands(dp)
 async def start_bot():
     await bot.set_my_commands(
         commands=[
-            BotCommand(command="/start", description="Авторизация"),
-            BotCommand(command="/list", description="Список всех заявок"),
-            BotCommand(command="/date", description="Свободные даты"),
-            BotCommand(command="/auto", description="Статус тягача"),
-            BotCommand(command="/stop", description="Сброс авторизации")
+            BotCommand(command="/start", description="Начать работу"),
         ],
         scope=BotCommandScopeDefault()
     )
-    logging.info("Команды установлены. Начало старта бота...")
+    logging.info("Команда /start установлена. Бот запускается...")
     await dp.start_polling(bot)
